@@ -36,6 +36,7 @@ you can run container with:
 xhost +localhost
 docker-compose run --rm mininet
 ```
+Just like the `run.sh` script the docker-compose file can also use the `MININET_WORK` environment variable to point to the location of your mininet scripts. The folder will be mounted to `/opt/work` in the container.
 
 ## Tips ##
 
