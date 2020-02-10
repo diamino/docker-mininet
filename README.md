@@ -1,23 +1,31 @@
 # docker-mininet
 
-The Docker image for [Mininet](http://mininet.org/)
+A Docker image for [Mininet](http://mininet.org/)
 
-## Docker Pull Command
+This is a slightly modified version of [`docker-mininet`](https://github.com/iwaseyusuke/docker-mininet) by [iwaseyusuke](https://github.com/iwaseyusuke) to make it work on Docker Desktop on macOS. This version has only been tested on macOS, but should also work on the Linux version of Docker.
 
-Download from [Docker Hub](https://hub.docker.com/)
+## Docker Build Command
 
 ```bash
-docker pull iwaseyusuke/mininet
+docker build -t diamino/mininet .
 ```
 
 ## Docker Run Command
 
 ```bash
-docker run -it --rm --privileged -e DISPLAY \
-             -v /tmp/.X11-unix:/tmp/.X11-unix \
-             -v /lib/modules:/lib/modules \
-             iwaseyusuke/mininet
+xhost +localhost
+docker run -it --rm --privileged \
+            -e DISPLAY=host.docker.internal:0 \
+            -v /lib/modules:/lib/modules \
+            -v $PWD:/opt/work \
+            diamino/mininet
 ```
+
+or simply run:
+```bash
+./run.sh
+```
+With this last option you can optionally set the environment variable `MININET_WORK` to a folder where the mininet scripts are located. This will be mounted on `/opt/work` in the container. E.g. `export MININET_WORK=/home/my_user_folder/mininet_scripts`.
 
 ## Docker Compose
 
@@ -25,31 +33,10 @@ If you have installed [Docker Compose](https://docs.docker.com/compose/),
 you can run container with:
 
 ```bash
-wget https://github.com/iwaseyusuke/docker-mininet/raw/master/docker-compose.yml
+xhost +localhost
 docker-compose run --rm mininet
 ```
 
-## TIPS
+## Tips ##
 
-### Open X Window applications in containers
-
-If you could not open `xterm` or other X Window applications, or faced to the
-following error message;
-
-```bash
-root@26f36691a400:~# xterm
-No protocol specified
-Warning: This program is an suid-root program or is being run by the root user.
-The full text of the error or warning message cannot be safely formatted
-in this environment. You may get a more descriptive message by running the
-program as a non-root user or by removing the suid bit on the executable.
-xterm: Xt error: Can't open display: %s
-```
-
-Please add `root` user to the local access control list of xhost on your
-"Docker host" (not on your containers).
-
-```bash
-$ xhost +si:localuser:root
-localuser:root being added to access control list
-```
+Make sure to allow network connections to your X server. For XQuartz on macOS you can enable this under *XQuartz->Preferences->Security*.
