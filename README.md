@@ -38,6 +38,14 @@ docker-compose run --rm mininet
 ```
 Just like the `run.sh` script the docker-compose file can also use the `MININET_WORK` environment variable to point to the location of your mininet scripts. The folder will be mounted to `/opt/work` in the container.
 
+## Faucet as controller ##
+
+If you are running the Docker version of the Faucet controller there is a specific docker-compose file to interconnect the networks of the containers.
+```bash
+xhost +localhost
+docker-compose -f docker-compose.faucet.yml run --rm mininet
+```
+
 ## Tips ##
 
 Make sure to allow network connections to your X server. For XQuartz on macOS you can enable this under *XQuartz->Preferences->Security*.
