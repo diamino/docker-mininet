@@ -20,10 +20,10 @@ RUN mkdir -p /opt/work
 
 WORKDIR /opt/work
 
-COPY entrypoint.sh /root/entrypoint.sh
+COPY docker-entry-point /root/docker-entry-point
 
-RUN chmod +x /root/entrypoint.sh
+RUN chmod +x /root/docker-entry-point
 
 EXPOSE 6633 6653 6640
 
-ENTRYPOINT ["/root/entrypoint.sh"]
+ENTRYPOINT ["/root/docker-entry-point"]
