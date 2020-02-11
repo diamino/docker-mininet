@@ -9,4 +9,4 @@ docker run -it -e DISPLAY=host.docker.internal:0 \
            --privileged \
            -v /lib/modules:/lib/modules \
            -v ${MININET_WORK}:/opt/work \
-           --rm ${DOCKER_IMAGE}
+           --rm ${DOCKER_IMAGE} $@
